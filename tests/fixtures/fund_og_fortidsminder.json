@@ -1,0 +1,39 @@
+{
+  "endpoint": "https://example.invalid/wfs",
+  "layers": ["public:fundogfortidsminder_punkt_fredet"],
+  "features": [
+    {
+      "type": "Feature",
+      "id": "fundogfortidsminder_punkt_fredet.1",
+      "geometry": {"type": "Point", "coordinates": [9.4189, 55.7561]},
+      "properties": {
+        "stednr": "170403-12",
+        "stednavn": "Nordhøjen",
+        "anlaegsbetegnelse": "Rundhøj",
+        "datering": "Bronzealder",
+        "kommune": "Vejle",
+        "sogn": "Jelling"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "fundogfortidsminder_punkt_fredet.2",
+      "geometry": {"type": "Point", "coordinates": [575000.0, 6225000.0]},
+      "properties": {
+        "STEDNR": "020101-5",
+        "ANLAEGSBETEGNELSE": "Langhøj",
+        "DATERING": "Yngre stenalder"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "fundogfortidsminder_punkt_fredet.3",
+      "geometry": {"type": "Point", "coordinates": [10.2, 56.1]},
+      "properties": {
+        "stednr": "010203-9",
+        "anlaegsbetegnelse": "Vejsten",
+        "datering": "Middelalder"
+      }
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "elements": [
+    {
+      "type": "way",
+      "id": 12345,
+      "center": {"lat": 55.7566, "lon": 9.4197},
+      "tags": {
+        "building": "church",
+        "name": "Jelling Kirke",
+        "start_date": "C11",
+        "denomination": "lutheran",
+        "wikidata": "Q1683418"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6789,
+      "lat": 55.6761,
+      "lon": 12.5683,
+      "tags": {"building": "church", "name": "Ny Kirke", "start_date": "1874"}
+    },
+    {
+      "type": "relation",
+      "id": 999,
+      "tags": {"building": "church", "name": "Uden geometri"}
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+__pycache__/
+*.py[cod]
+.venv/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.pages-dist/
+data/raw/
+data/interim/
+data/processed/
+!data/**/.gitkeep

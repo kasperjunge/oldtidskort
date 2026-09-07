@@ -1,0 +1,60 @@
+:root {
+  color-scheme: light;
+  --ink: #22302a;
+  --muted: #68736e;
+  --paper: #f2efe7;
+  --line: #d8d3c7;
+  --moss: #556b4f;
+  --clay: #9c563e;
+}
+
+* { box-sizing: border-box; }
+html, body, main { width: 100%; height: 100%; margin: 0; }
+body { background: var(--paper); color: var(--ink); font-family: "DM Sans", sans-serif; }
+main { display: grid; grid-template-columns: 340px 1fr; overflow: hidden; }
+
+.panel { display: flex; flex-direction: column; padding: 34px 30px 24px; border-right: 1px solid var(--line); background: var(--paper); z-index: 2; }
+.eyebrow { display: flex; align-items: center; gap: 9px; color: var(--moss); font-size: 11px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; }
+.eyebrow span { width: 20px; height: 1px; background: var(--moss); }
+h1 { margin: 20px 0 12px; font: 600 45px/.93 "Newsreader", serif; letter-spacing: -.035em; }
+header p { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.6; }
+.count-card { margin: 32px 0; padding: 20px 0; border-block: 1px solid var(--line); }
+.count-card strong { display: block; font: 600 36px/1 "Newsreader", serif; }
+.count-card span { display: block; margin-top: 3px; font-size: 12px; }
+.count-card small { display: block; margin-top: 12px; color: var(--muted); font-size: 10px; }
+.filters { display: grid; gap: 7px; }
+.filters label { margin-top: 10px; color: var(--muted); font-size: 10px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; }
+select { appearance: none; width: 100%; padding: 11px 34px 11px 12px; color: var(--ink); border: 1px solid var(--line); border-radius: 2px; background: #faf8f2 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='7'%3E%3Cpath d='m1 1 5 5 5-5' fill='none' stroke='%23556b4f'/%3E%3C/svg%3E") no-repeat right 12px center; font: 12px "DM Sans"; }
+footer { margin-top: auto; color: var(--muted); font-size: 10px; line-height: 1.5; }
+footer a { display: block; margin-top: 8px; color: var(--moss); text-decoration: none; }
+.legend-dot { display: inline-block; width: 7px; height: 7px; margin-right: 6px; border-radius: 50%; background: var(--clay); }
+
+.map-wrap, #map { position: relative; width: 100%; height: 100%; }
+.map-wrap { overflow: hidden; }
+.maplibregl-ctrl-attrib { font-size: 9px; }
+.maplibregl-ctrl-group { border-radius: 2px; box-shadow: 0 1px 5px #26382d22; }
+.loading, .error { position: absolute; inset: 50% auto auto 50%; transform: translate(-50%, -50%); z-index: 3; display: flex; align-items: center; gap: 12px; padding: 14px 18px; background: #f8f5ed; box-shadow: 0 8px 30px #26382d22; font-size: 12px; }
+.loading i { width: 14px; height: 14px; border: 2px solid var(--line); border-top-color: var(--clay); border-radius: 50%; animation: spin .8s linear infinite; }
+.error { width: min(390px, calc(100% - 40px)); align-items: flex-start; flex-direction: column; }
+.error span { color: var(--muted); font-size: 11px; line-height: 1.5; }
+.error code { color: var(--ink); }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.detail { position: absolute; right: 18px; bottom: 18px; z-index: 3; width: 300px; padding: 22px; background: #f8f5ed; box-shadow: 0 12px 40px #26382d33; }
+.detail button { position: absolute; top: 10px; right: 12px; border: 0; background: none; color: var(--muted); font-size: 24px; cursor: pointer; }
+.tag { color: var(--clay); font-size: 9px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; }
+.detail h2 { margin: 8px 24px 16px 0; font: 600 26px/1 "Newsreader", serif; }
+.detail dl { display: grid; grid-template-columns: 72px 1fr; gap: 7px; margin: 0 0 18px; font-size: 11px; }
+.detail dt { color: var(--muted); }.detail dd { margin: 0; }
+.detail a { color: var(--moss); font-size: 11px; font-weight: 600; text-decoration: none; }
+
+@media (max-width: 720px) {
+  main { grid-template-columns: 1fr; grid-template-rows: auto 1fr; }
+  .panel { padding: 18px 20px 14px; border-right: 0; border-bottom: 1px solid var(--line); }
+  .panel header p, footer { display: none; }
+  h1 { margin: 10px 0 0; font-size: 29px; } h1 br { display: none; }
+  .count-card { position: absolute; top: 18px; right: 20px; margin: 0; padding: 0; border: 0; text-align: right; }
+  .count-card strong { font-size: 24px; }.count-card span { font-size: 9px; }.count-card small { display: none; }
+  .filters { grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 14px; }.filters label { display: none; }
+  .detail { right: 10px; bottom: 10px; left: 10px; width: auto; }
+}

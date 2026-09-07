@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="da">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Et interaktivt kort over registrerede gravhøje i Danmark." />
+    <title>Oldtidskort — Danmarks gravhøje</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Newsreader:opsz,wght@6..72,500;6..72,600&display=swap" rel="stylesheet" />
+    <link href="https://unpkg.com/maplibre-gl@5.6.2/dist/maplibre-gl.css" rel="stylesheet" />
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <main>
+      <aside class="panel">
+        <header>
+          <div class="eyebrow"><span></span> Danmarks oldtid</div>
+          <h1>Gravhøjene<br />i landskabet</h1>
+          <p>Gå på opdagelse i de registrerede gravhøje, dysser og jættestuer fra Fund og Fortidsminder.</p>
+        </header>
+
+        <section class="count-card" aria-live="polite">
+          <strong id="visible-count">—</strong>
+          <span>gravminder i kortudsnittet</span>
+          <small id="total-count">Indlæser det landsdækkende arkiv …</small>
+        </section>
+
+        <section class="filters" aria-label="Filtrer kortet">
+          <label for="period">Periode</label>
+          <select id="period">
+            <option value="all">Alle perioder</option>
+            <option value="stenalder">Stenalder</option>
+            <option value="bronzealder">Bronzealder</option>
+            <option value="jernalder">Jernalder</option>
+            <option value="vikingetid">Vikingetid</option>
+            <option value="ukendt">Ukendt / oldtid</option>
+          </select>
+
+          <label for="protection">Status</label>
+          <select id="protection">
+            <option value="all">Fredede og ikke-fredede</option>
+            <option value="protected">Kun fredede</option>
+            <option value="unprotected">Kun ikke-fredede</option>
+          </select>
+        </section>
+
+        <footer>
+          <span class="legend-dot"></span> Ét punkt er ét registreret gravminde
+          <a href="https://www.kulturarv.dk/fundogfortidsminder/" target="_blank" rel="noreferrer">Kilde: Slots- og Kulturstyrelsen ↗</a>
+        </footer>
+      </aside>
+
+      <section class="map-wrap" aria-label="Kort over danske gravhøje">
+        <div id="map"></div>
+        <div id="loading" class="loading"><i></i><span>Henter gravhøjene</span></div>
+        <div id="error" class="error" hidden>
+          <strong>Kortdata kunne ikke indlæses</strong>
+          <span>Kør <code>uv run oldtidskort map</code> for at bygge data og åbne kortet korrekt.</span>
+        </div>
+        <article id="detail" class="detail" hidden>
+          <button id="detail-close" aria-label="Luk detaljer">×</button>
+          <span id="detail-period" class="tag"></span>
+          <h2 id="detail-title"></h2>
+          <dl id="detail-fields"></dl>
+          <a id="detail-link" target="_blank" rel="noreferrer">Se i Fund og Fortidsminder ↗</a>
+        </article>
+      </section>
+    </main>
+    <script src="https://unpkg.com/maplibre-gl@5.6.2/dist/maplibre-gl.js"></script>
+    <script src="./app.js"></script>
+  </body>
+</html>

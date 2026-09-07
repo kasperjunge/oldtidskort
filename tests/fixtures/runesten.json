@@ -1,0 +1,24 @@
+{
+  "results": {
+    "bindings": [
+      {
+        "item": {"value": "http://www.wikidata.org/entity/Q207404"},
+        "itemLabel": {"value": "Den store Jellingsten"},
+        "coord": {"value": "Point(9.41889 55.75611)"},
+        "inception": {"value": "+0965-01-01T00:00:00Z"},
+        "adminLabel": {"value": "Vejle Kommune"},
+        "catalog": {"value": "DR 42"}
+      },
+      {
+        "item": {"value": "http://www.wikidata.org/entity/Q123456"},
+        "itemLabel": {"value": "Runesten uden datering"},
+        "coord": {"value": "Point(10.0 56.0)"}
+      },
+      {
+        "item": {"value": "http://www.wikidata.org/entity/Q999999"},
+        "itemLabel": {"value": "Ugyldig geometri"},
+        "coord": {"value": "Polygon((10 56, 11 56, 11 57, 10 56))"}
+      }
+    ]
+  }
+}
