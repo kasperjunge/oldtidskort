@@ -52,7 +52,7 @@ function matchesFilters(feature) {
   const runestoneLocation = document.querySelector("#runestone-location").value;
   return (type === "all" || p.site_type === type) &&
     (period === "all" || p.period === period) &&
-    (protection === "all" || (p.site_type === "gravhoej" && p.protected === (protection === "protected"))) &&
+    (protection === "all" || p.site_type !== "gravhoej" || p.protected === (protection === "protected")) &&
     (p.site_type !== "runesten" || runestoneLocation === "all" || extra(p).location_role === runestoneLocation);
 }
 
@@ -145,7 +145,7 @@ map.on("load", async () => {
     });
     document.querySelector("#loading").hidden = true;
     document.querySelector("#total-count").textContent = `${number.format(data.features.length)} registreringer i hele Danmark`;
-    updateCount();
+    filter();
   } catch (error) {
     document.querySelector("#loading").hidden = true; document.querySelector("#error").hidden = false; console.error(error);
   }
