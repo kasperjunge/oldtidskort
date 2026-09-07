@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import shutil
 from pathlib import Path
@@ -15,6 +16,7 @@ SOURCES = (
     ROOT / "data" / "processed" / "bynavne_osm.geojson",
 )
 WEB = ROOT / "web"
+DATA_URL = "./data/lokaliteter.json"
 PAGES = ROOT / ".pages-dist"
 
 
@@ -53,22 +55,38 @@ def build(sources: tuple[Path, ...] = SOURCES, destination: Path = PAGES) -> tup
         payload = json.loads(source.read_text(encoding="utf-8"))
         features.extend(compact_feature(feature) for feature in payload["features"])
 
+    payload = json.dumps(
+        {"format": "oldtidskort-v2", "features": features},
+        ensure_ascii=False,
+        separators=(",", ":"),
+    )
+
+    index_html = (WEB / "index.html").read_text(encoding="utf-8")
+    style_css = (WEB / "style.css").read_text(encoding="utf-8")
+    app_js = (WEB / "app.js").read_text(encoding="utf-8")
+
+    # index.html, app.js og datafilen skal skifte i takt. Uden en version i
+    # URL'en kan en browser genbruge en cachet app.js sammen med en ny
+    # index.html — så tegner kortet, men panelets elementer er skiftet ud, og
+    # scriptet fejler. Stemplet ændrer sig, når som helst en af delene ændrer sig.
+    stamp = hashlib.sha256(
+        f"{payload}{index_html}{style_css}{app_js}".encode()
+    ).hexdigest()[:10]
+    app_js = app_js.replace(DATA_URL, f"{DATA_URL}?v={stamp}")
+    index_html = index_html.replace("./style.css", f"./style.css?v={stamp}")
+    index_html = index_html.replace("./app.js", f"./app.js?v={stamp}")
+
     if destination.exists():
         shutil.rmtree(destination)
     (destination / "data").mkdir(parents=True)
-    for filename in ("index.html", "style.css", "app.js"):
-        shutil.copy2(WEB / filename, destination / filename)
+    (destination / "index.html").write_text(index_html, encoding="utf-8")
+    (destination / "style.css").write_text(style_css, encoding="utf-8")
+    (destination / "app.js").write_text(app_js, encoding="utf-8")
     (destination / ".nojekyll").touch()
 
+    # Selve filnavnet holdes uændret; deploy-scriptet verificerer denne sti.
     target = destination / "data" / "lokaliteter.json"
-    target.write_text(
-        json.dumps(
-            {"format": "oldtidskort-v2", "features": features},
-            ensure_ascii=False,
-            separators=(",", ":"),
-        ),
-        encoding="utf-8",
-    )
+    target.write_text(payload, encoding="utf-8")
     return len(features), target
 
 
