@@ -4,7 +4,7 @@
 | --- | --- | --- | --- |
 | Gravhøje | Fund og Fortidsminder (Slots- og Kulturstyrelsen) | WFS, punktlag findes via GetCapabilities | Offentlige data — kreditér styrelsen |
 | Kirker | OpenStreetMap via Overpass | Overpass API (to spejle) | ODbL 1.0 — kreditering påkrævet |
-| Runesten | Wikidata (SPARQL) + valgfri kurateret CSV | `query.wikidata.org/sparql` | CC0 1.0 |
+| Runesten | Samnordisk runtextdatabas/Runor, Wikidata og Fund og Fortidsminder | REST, SPARQL og WFS | CC0-metadata + kildekreditering |
 
 ## Fund og Fortidsminder
 Styrelsen har flyttet servicen mellem hosts gennem årene, så adapteren prøver
@@ -33,10 +33,18 @@ Danmarks Kirker (Nationalmuseet) ville give langt bedre bygningsdatering, men
 er ikke udgivet som maskinlæsbart datasæt.
 
 ## Runesten
-Danmarks Runeindskrifter (runer.ku.dk) har ingen offentlig API. Wikidata
-dækker de fleste danske runesten med koordinat og ofte DR-nummer (P528).
+Danmarks Runeindskrifter (runer.ku.dk) har ingen offentlig API. Wikidata-laget
+henter nordiske runesten (Q24566025) i Danmark med koordinat og ofte DR-nummer (P1261).
 Manglende sten kan tilføjes i `data/raw/runesten.csv` med kolonnerne
 `dr_nummer,navn,lon,lat,datering,kommune,kilde_url`.
+Hvis CSV og Wikidata har samme DR-nummer (uanset mellemrum og store/små
+bogstaver), overskriver CSV'ens udfyldte felter Wikidata uden at skabe en dublet.
+
+Det dokumenterede researchdatasæt bruger desuden Samnordisk runtextdatabases
+officielle Runor-API, udgave 2020. Den kilde skelner mellem ældst belagte og
+nuværende koordinater, oplyser proveniens, placering, bevaringsstatus og om en
+placering udtrykkeligt er oprindelig. Fund og Fortidsminder importeres som
+registerobservationer og sammenkobles kun med en sten via dokumenterede ID'er.
 
 ## Kildekrav
 Før et datasæt publiceres: afklar licens, kreditering, opdateringskadence og et
