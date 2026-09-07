@@ -15,7 +15,7 @@ class Source(Protocol):
     license: str
     homepage: str
 
-    def fetch(self, raw_dir: Path) -> Path:
+    def fetch(self, raw_dir: Path, refresh: bool = False) -> Path:
         """Henter rå data ned og returnerer stien til filen (cache-venligt)."""
 
     def parse(self, raw_path: Path) -> Iterator[Site]:

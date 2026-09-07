@@ -20,17 +20,16 @@ from .base import register
 
 SPARQL_URL = "https://query.wikidata.org/sparql"
 
-# Q131985 = runesten, Q1129051 = runeindskrift; P17 = land, Q35 = Danmark.
-# P625 = koordinat, P1618/P528 = katalognummer (DR-nummer).
+# Q24566025 = nordisk runesten; P17 = land, Q35 = Danmark.
+# P625 = koordinat, P1261 = Rundata-katalognummer (fx DR 42).
 QUERY = """
 SELECT ?item ?itemLabel ?coord ?inception ?admin ?adminLabel ?catalog WHERE {
-  VALUES ?class { wd:Q131985 wd:Q1129051 }
-  ?item wdt:P31/wdt:P279* ?class ;
+  ?item wdt:P31 wd:Q24566025 ;
         wdt:P17 wd:Q35 ;
         wdt:P625 ?coord .
   OPTIONAL { ?item wdt:P571 ?inception . }
   OPTIONAL { ?item wdt:P131 ?admin . }
-  OPTIONAL { ?item wdt:P528 ?catalog . }
+  OPTIONAL { ?item wdt:P1261 ?catalog . }
   SERVICE wikibase:label { bd:serviceParam wikibase:language "da,en". }
 }
 """
@@ -43,10 +42,10 @@ class Runesten:
     license = "CC0 1.0 (Wikidata); kuraterede rækker: se kilde_url"
     homepage = "https://www.wikidata.org/"
 
-    def fetch(self, raw_dir: Path) -> Path:
+    def fetch(self, raw_dir: Path, refresh: bool = False) -> Path:
         raw_dir.mkdir(parents=True, exist_ok=True)
         target = raw_dir / f"{self.name}.json"
-        if target.exists():
+        if target.exists() and not refresh:
             return target
         with client() as http:
             response = request(
@@ -60,8 +59,34 @@ class Runesten:
         return target
 
     def parse(self, raw_path: Path) -> Iterator[Site]:
-        yield from self._parse_wikidata(raw_path)
-        yield from self._parse_csv(raw_path.parent / "runesten.csv")
+        wikidata = list(self._parse_wikidata(raw_path))
+        curated = list(self._parse_csv(raw_path.parent / "runesten.csv"))
+        curated_by_catalog = {
+            _catalog_key(site.source_id): site for site in curated if _catalog_key(site.source_id)
+        }
+
+        used_catalogs: set[str] = set()
+        for site in wikidata:
+            catalog = _catalog_key(site.extra.get("katalognummer"))
+            override = curated_by_catalog.get(catalog)
+            if override is None:
+                yield site
+                continue
+            used_catalogs.add(catalog)
+            # Bevar Wikidata-QID'et som stabilt id, men lad den kuraterede række
+            # rette de felter, der faktisk er udfyldt i CSV'en.
+            updates = {
+                field: value
+                for field, value in override.model_dump().items()
+                if value not in (None, "", {}) and field not in {"id", "source", "source_id", "extra"}
+            }
+            updates["extra"] = {**site.extra, "katalognummer": override.source_id}
+            updates["license"] = f"{site.license}; kurateret supplement"
+            yield site.model_copy(update=updates)
+
+        for site in curated:
+            if _catalog_key(site.source_id) not in used_catalogs:
+                yield site
 
     def _parse_wikidata(self, raw_path: Path) -> Iterator[Site]:
         payload = json.loads(raw_path.read_text(encoding="utf-8"))
@@ -131,6 +156,11 @@ def _year(value: str | None) -> int | None:
     head = value.lstrip("+")
     digits = head[:4]
     return int(digits) if digits.isdigit() else None
+
+
+def _catalog_key(value: object) -> str:
+    """Normalisér fx `DR 42` og `dr42`, så CSV kan overskrive Wikidata."""
+    return "".join(character for character in str(value or "").upper() if character.isalnum())
 
 
 register(Runesten())

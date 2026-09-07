@@ -81,3 +81,21 @@ def test_runesten_fra_wikidata(fixture_path):
     assert sites[0].extra["katalognummer"] == "DR 42"
     # Uden datering antager vi vikingetid.
     assert sites[1].period is Period.VIKINGETID
+
+
+def test_kurateret_runesten_overskriver_wikidata_uden_dublet(tmp_path, fixture_path):
+    raw_path = tmp_path / "runesten.json"
+    raw_path.write_text(fixture_path("runesten.json").read_text(encoding="utf-8"), encoding="utf-8")
+    (tmp_path / "runesten.csv").write_text(
+        "dr_nummer,navn,lon,lat,datering,kommune,kilde_url\n"
+        "DR42,Den opdaterede Jellingsten,9.419,55.756,970,Vejle,https://example.com/dr42\n",
+        encoding="utf-8",
+    )
+
+    sites = list(REGISTRY["runesten"].parse(raw_path))
+
+    matches = [site for site in sites if site.extra.get("katalognummer") == "DR42"]
+    assert len(matches) == 1
+    assert matches[0].id == "runesten:Q207404"
+    assert matches[0].name == "Den opdaterede Jellingsten"
+    assert str(matches[0].url) == "https://example.com/dr42"

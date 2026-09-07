@@ -47,10 +47,10 @@ class Kirker:
     license = "ODbL 1.0 — © OpenStreetMap-bidragydere"
     homepage = "https://www.openstreetmap.org/copyright"
 
-    def fetch(self, raw_dir: Path) -> Path:
+    def fetch(self, raw_dir: Path, refresh: bool = False) -> Path:
         raw_dir.mkdir(parents=True, exist_ok=True)
         target = raw_dir / f"{self.name}.json"
-        if target.exists():
+        if target.exists() and not refresh:
             return target
         errors: list[str] = []
         with client() as http:

@@ -1,8 +1,10 @@
 import json
 import shutil
 
+import pytest
+
 from oldtidskort.core.models import Site, SiteType
-from oldtidskort.pipeline import build_all, validate
+from oldtidskort.pipeline import build, build_all, validate
 
 
 def _site(site_id: str, lon: float, lat: float) -> Site:
@@ -19,6 +21,17 @@ def _site(site_id: str, lon: float, lat: float) -> Site:
 def test_validate_fjerner_dubletter_og_udenlandske_punkter():
     sites = [_site("a", 10.0, 56.0), _site("a", 10.0, 56.0), _site("b", 2.35, 48.85)]
     assert [s.id for s in validate(sites)] == ["a"]
+
+
+def test_build_afviser_tom_kilde_uden_at_skrive_output(tmp_path):
+    raw = tmp_path / "raw"
+    raw.mkdir()
+    (raw / "runesten.json").write_text('{"results":{"bindings":[]}}', encoding="utf-8")
+
+    with pytest.raises(ValueError, match="ingen gyldige punkter"):
+        build("runesten", raw, tmp_path / "out")
+
+    assert not (tmp_path / "out" / "runesten.geojson").exists()
 
 
 def test_build_all_skriver_samlet_datasaet(tmp_path, fixture_path):

@@ -47,20 +47,26 @@ def validate(sites: Iterable[Site], report: BuildReport | None = None) -> Iterat
 
 
 def build(
-    source_name: str, raw_dir: Path = RAW_DIR, out_dir: Path = PROCESSED_DIR
+    source_name: str,
+    raw_dir: Path = RAW_DIR,
+    out_dir: Path = PROCESSED_DIR,
+    refresh: bool = False,
 ) -> BuildReport:
     source = REGISTRY[source_name]
     report = BuildReport(source=source_name)
-    raw_path = source.fetch(raw_dir)
-    report.paths = write_dataset(validate(source.parse(raw_path), report), source_name, out_dir)
+    raw_path = source.fetch(raw_dir, refresh=refresh)
+    sites = list(validate(source.parse(raw_path), report))
+    if not sites:
+        raise ValueError(f"{source_name} gav ingen gyldige punkter; eksisterende output bevares")
+    report.paths = write_dataset(sites, source_name, out_dir)
     return report
 
 
 def build_all(
-    raw_dir: Path = RAW_DIR, out_dir: Path = PROCESSED_DIR
+    raw_dir: Path = RAW_DIR, out_dir: Path = PROCESSED_DIR, refresh: bool = False
 ) -> tuple[list[BuildReport], list[Path]]:
     """Bygger alle kilder og et samlet `alle_lokaliteter`-datasæt til kortet."""
-    reports = [build(name, raw_dir, out_dir) for name in REGISTRY]
+    reports = [build(name, raw_dir, out_dir, refresh=refresh) for name in REGISTRY]
     combined: list[Site] = []
     for name in REGISTRY:
         source = REGISTRY[name]
