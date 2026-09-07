@@ -102,10 +102,19 @@ map.on("load", async () => {
     for (const feature of data.features) {
       feature.properties.protected = Boolean(extra(feature.properties).fredet);
     }
-    map.addSource("mounds", { type: "geojson", data, cluster: true, clusterRadius: 35, clusterMaxZoom: 10 });
-    map.addLayer({ id: "clusters", type: "circle", source: "mounds", filter: ["has", "point_count"], paint: { "circle-color": ["step", ["get", "point_count"], "#78866d", 100, "#607257", 1000, "#41533f"], "circle-radius": ["step", ["get", "point_count"], 14, 100, 18, 1000, 24], "circle-stroke-width": 1, "circle-stroke-color": "#f2efe7" } });
-    map.addLayer({ id: "cluster-count", type: "symbol", source: "mounds", filter: ["has", "point_count"], layout: { "text-field": ["get", "point_count_abbreviated"], "text-size": 10 }, paint: { "text-color": "#fff" } });
-    map.addLayer({ id: "mounds", type: "circle", source: "mounds", filter: ["!", ["has", "point_count"]], paint: { "circle-color": ["case", ["get", "protected"], "#9c563e", "#b89466"], "circle-radius": ["interpolate", ["linear"], ["zoom"], 6, 2.2, 12, 5], "circle-opacity": .88, "circle-stroke-width": ["interpolate", ["linear"], ["zoom"], 7, 0, 12, 1], "circle-stroke-color": "#fff4e6" } });
+    map.addSource("mounds", { type: "geojson", data });
+    map.addLayer({
+      id: "mounds",
+      type: "circle",
+      source: "mounds",
+      paint: {
+        "circle-color": ["case", ["get", "protected"], "#9c563e", "#b89466"],
+        "circle-radius": ["interpolate", ["linear"], ["zoom"], 5.5, .7, 7, 1, 9, 1.8, 12, 4.5, 16, 7],
+        "circle-opacity": ["interpolate", ["linear"], ["zoom"], 5.5, .52, 8, .68, 12, .88],
+        "circle-stroke-width": ["interpolate", ["linear"], ["zoom"], 8, 0, 12, 1],
+        "circle-stroke-color": "#fff4e6",
+      },
+    });
     document.querySelector("#loading").hidden = true;
     document.querySelector("#total-count").textContent = `${number.format(data.features.length)} registreringer i hele Danmark`;
     updateCount();
@@ -116,16 +125,9 @@ map.on("load", async () => {
   }
 });
 
-map.on("click", "clusters", async event => {
-  const feature = map.queryRenderedFeatures(event.point, { layers: ["clusters"] })[0];
-  const zoom = await map.getSource("mounds").getClusterExpansionZoom(feature.properties.cluster_id);
-  map.easeTo({ center: feature.geometry.coordinates, zoom });
-});
 map.on("click", "mounds", event => showDetail(event.features[0]));
-for (const layer of ["clusters", "mounds"]) {
-  map.on("mouseenter", layer, () => { map.getCanvas().style.cursor = "pointer"; });
-  map.on("mouseleave", layer, () => { map.getCanvas().style.cursor = ""; });
-}
+map.on("mouseenter", "mounds", () => { map.getCanvas().style.cursor = "pointer"; });
+map.on("mouseleave", "mounds", () => { map.getCanvas().style.cursor = ""; });
 map.on("moveend", updateCount);
 document.querySelector("#period").addEventListener("change", filter);
 document.querySelector("#protection").addEventListener("change", filter);

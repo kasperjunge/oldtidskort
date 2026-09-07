@@ -9,6 +9,7 @@
 }
 
 * { box-sizing: border-box; }
+[hidden] { display: none !important; }
 html, body, main { width: 100%; height: 100%; margin: 0; }
 body { background: var(--paper); color: var(--ink); font-family: "DM Sans", sans-serif; }
 main { display: grid; grid-template-columns: 340px 1fr; overflow: hidden; }
