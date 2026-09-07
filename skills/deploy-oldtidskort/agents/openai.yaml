@@ -1,0 +1,4 @@
+interface:
+  display_name: "Deploy Oldtidskort"
+  short_description: "Byg, validér og publicér Oldtidskort sikkert"
+  default_prompt: "Deploy Oldtidskort lokalt med preflight, validering og kontrol af live-sitet."
