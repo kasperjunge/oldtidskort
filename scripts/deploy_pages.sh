@@ -73,6 +73,7 @@ uv run --extra dev python -m pytest
 printf '%s\n' "Henter friske kildedata ..."
 uv run oldtidskort build fund_og_fortidsminder --refresh
 uv run oldtidskort build bynavne_osm --refresh
+uv run oldtidskort build kirker_osm --refresh
 uv run python scripts/build_runestone_research.py --refresh
 
 printf '%s\n' "Bygger og validerer GitHub Pages-sitet ..."
@@ -87,14 +88,14 @@ payload = json.loads(path.read_text(encoding='utf-8'))
 if payload.get('format') != 'oldtidskort-v2':
     raise SystemExit('Uventet dataformat i lokaliteter.json')
 counts = Counter(row[3] for row in payload.get('features', []))
-required = ('gravhoej', 'runesten', 'bynavn')
+required = ('gravhoej', 'runesten', 'bynavn', 'kirke')
 missing = [kind for kind in required if counts[kind] == 0]
 if missing:
     raise SystemExit(f'Mangler punkter af typen: {", ".join(missing)}')
 print(
     f'{sum(counts.values()):,} punkter '
-    f'(gravminder: {counts["gravhoej"]:,}, runesten: {counts["runesten"]:,}, '
-    f'bynavne: {counts["bynavn"]:,}); '
+    f'(gravhøje: {counts["gravhoej"]:,}, runesten: {counts["runesten"]:,}, '
+    f'bynavne: {counts["bynavn"]:,}, kirker: {counts["kirke"]:,}); '
     f'{path.stat().st_size / 1_000_000:.1f} MB'
 )
 PY

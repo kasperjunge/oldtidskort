@@ -1,7 +1,7 @@
 /* global maplibregl */
 const number = new Intl.NumberFormat("da-DK");
-const periodNames = { stenalder: "Stenalder", bronzealder: "Bronzealder", jernalder: "Jernalder", vikingetid: "Vikingetid", middelalder: "Middelalder", renaessance: "Renæssance", ukendt: "Oldtid / ukendt" };
-const typeNames = { gravhoej: "Gravminde", runesten: "Runesten", bynavn: "Bynavn" };
+const periodNames = { stenalder: "Stenalder", bronzealder: "Bronzealder", jernalder: "Jernalder", vikingetid: "Vikingetid", middelalder: "Middelalder", renaessance: "1536 og senere", ukendt: "Oldtid / ukendt" };
+const typeNames = { gravhoej: "Gravhøj", runesten: "Runesten", bynavn: "Bynavn", kirke: "Kirke" };
 const locationRoles = { earliest_known_location: "Ældst kendte sted", findspot: "Fundsted", original_location: "Oprindeligt sted", current_location: "Nuværende placering" };
 const confidenceNames = { high: "Veletableret navnelag", medium: "Anerkendt, men usikkert afgrænset", low: "Bruges også i unge navne" };
 const confidenceRank = { high: 3, medium: 2, low: 1 };
@@ -15,6 +15,7 @@ let data;
 /** Ét datalag: hvilke features det ejer, hvordan det filtreres, og hvilke
  *  MapLibre-lag det tegner. Panelet har ét kort pr. lag. */
 const LAYERS = {
+  kirker: { siteType: "kirke", mapLayers: ["churches"], controls: [], matches() { return true; } },
   gravhoeje: {
     siteType: "gravhoej",
     mapLayers: ["mounds"],
@@ -85,6 +86,7 @@ async function loadData() {
     "../data/processed/fund_og_fortidsminder.geojson",
     "../data/processed/runesten_lokationer.geojson",
     "../data/processed/bynavne_osm.geojson",
+    "../data/processed/kirker_osm.geojson",
   ];
   const responses = await Promise.all(sources.map(url => fetch(url)));
   if (!responses.some(response => response.ok)) throw new Error("Kortdata blev ikke fundet");
@@ -193,6 +195,13 @@ function addLayers() {
       "icon-allow-overlap": true, "icon-size": ["interpolate", ["linear"], ["zoom"], 5.5, .55, 9, .75, 13, 1],
     },
   });
+  map.addLayer({
+    id: "churches", type: "circle", source: "kirker",
+    paint: {
+      "circle-color": "#75608a", "circle-stroke-color": "#faf8f2", "circle-stroke-width": 1.5,
+      "circle-radius": ["interpolate", ["linear"], ["zoom"], 5.5, 2.5, 10, 4, 15, 7],
+    },
+  });
 }
 
 /* ---------- filtrering ---------- */
@@ -200,7 +209,7 @@ function addLayers() {
 function matching(key) {
   const layer = LAYERS[key];
   if (!enabled(key)) return [];
-  const period = value("#period");
+  const period = value(`#period-${key}`);
   return data.features.filter(feature => {
     const p = feature.properties;
     return p.site_type === layer.siteType &&
@@ -217,7 +226,9 @@ function filter() {
     map.getSource(key).setData({ type: "FeatureCollection", features });
     const visible = features.filter(feature => bounds.contains(feature.geometry.coordinates));
     document.querySelector(`#count-${key}`).textContent = number.format(visible.length);
-    document.querySelector(`.layer[data-layer="${key}"]`).classList.toggle("off", !enabled(key));
+    const tab = document.querySelector(`#tab-${key}`);
+    tab.classList.toggle("enabled", enabled(key));
+    tab.querySelector(".tab-status").textContent = enabled(key) ? "Til" : "Fra";
     total += visible.length;
   }
   document.querySelector("#visible-count").textContent = number.format(total);
@@ -251,6 +262,9 @@ function setDetails(rows) {
 }
 
 function detailRows(p, details) {
+  if (p.site_type === "kirke") {
+    return [["Type", "Kirke / kapel"], ["Datering", p.period_raw], ["Trossamfund", details.denomination], ["Kilde", "OpenStreetMap"]];
+  }
   if (p.site_type === "runesten") {
     return [
       ["Type", "Runesten"], ["DR-nr.", details.katalognummer],
@@ -275,7 +289,7 @@ function detailRows(p, details) {
     ];
   }
   return [
-    ["Type", details.anlaegsbetegnelse || p.description || "Gravminde"], ["Datering", p.period_raw],
+    ["Type", details.anlaegsbetegnelse || p.description || "Gravhøj"], ["Datering", p.period_raw],
     ["Status", p.protected ? "Fredet" : "Ikke fredet"], ["Stednr.", details.stednr],
   ];
 }
@@ -322,9 +336,9 @@ map.on("load", async () => {
         map.on("mouseleave", mapLayer, () => { map.getCanvas().style.cursor = ""; });
       }
       document.querySelector(`#layer-${key}`).addEventListener("change", filter);
-      for (const control of LAYERS[key].controls) document.querySelector(control).addEventListener("change", filter);
+      for (const control of [...LAYERS[key].controls, `#period-${key}`]) document.querySelector(control).addEventListener("change", filter);
     }
-    document.querySelector("#period").addEventListener("change", filter);
+
 
     document.querySelector("#loading").hidden = true;
     document.querySelector("#total-count").textContent = `${number.format(data.features.length)} registreringer i hele Danmark`;
@@ -336,3 +350,24 @@ map.on("load", async () => {
 
 map.on("moveend", updateCounts);
 document.querySelector("#detail-close").addEventListener("click", () => { document.querySelector("#detail").hidden = true; });
+
+// Fanens fokus og datalagets synlighed er uafhængige.
+const tabs = [...document.querySelectorAll('[role="tab"]')];
+function selectTab(tab) {
+  for (const item of tabs) {
+    const selected = item === tab;
+    item.setAttribute("aria-selected", String(selected));
+    item.tabIndex = selected ? 0 : -1;
+    document.getElementById(item.getAttribute("aria-controls")).hidden = !selected;
+  }
+}
+for (const [index, tab] of tabs.entries()) {
+  tab.addEventListener("click", () => selectTab(tab));
+  tab.addEventListener("keydown", event => {
+    const next = { ArrowRight: (index + 1) % tabs.length, ArrowLeft: (index + tabs.length - 1) % tabs.length, Home: 0, End: tabs.length - 1 }[event.key];
+    if (next === undefined) return;
+    event.preventDefault();
+    selectTab(tabs[next]);
+    tabs[next].focus();
+  });
+}

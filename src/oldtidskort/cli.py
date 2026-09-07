@@ -97,6 +97,11 @@ def map_command(
         console.print("Bygger bynavnelaget …")
         console.print(build("bynavne_osm", RAW_DIR, PROCESSED_DIR, refresh=refresh).summary())
 
+    kirker = PROCESSED_DIR / "kirker_osm.geojson"
+    if refresh or not kirker.exists():
+        console.print("Bygger kirkelaget …")
+        console.print(build("kirker_osm", RAW_DIR, PROCESSED_DIR, refresh=refresh).summary())
+
     url = f"http://127.0.0.1:{port}/web/"
     handler = functools.partial(http.server.SimpleHTTPRequestHandler, directory=PROJECT_DIR)
     try:

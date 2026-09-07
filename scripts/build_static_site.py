@@ -14,6 +14,7 @@ SOURCES = (
     ROOT / "data" / "processed" / "fund_og_fortidsminder.geojson",
     ROOT / "data" / "processed" / "runesten_lokationer.geojson",
     ROOT / "data" / "processed" / "bynavne_osm.geojson",
+    ROOT / "data" / "processed" / "kirker_osm.geojson",
 )
 WEB = ROOT / "web"
 DATA_URL = "./data/lokaliteter.json"
@@ -47,6 +48,7 @@ def build(sources: tuple[Path, ...] = SOURCES, destination: Path = PAGES) -> tup
         raise SystemExit(
             f"Mangler {names}. Kør først: uv run oldtidskort build fund_og_fortidsminder "
             "&& uv run oldtidskort build bynavne_osm "
+            "&& uv run oldtidskort build kirker_osm "
             "&& uv run python scripts/build_runestone_research.py"
         )
 

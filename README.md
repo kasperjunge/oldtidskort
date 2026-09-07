@@ -14,8 +14,9 @@ skibssætninger og gravpladser. Både fredede og ikke-fredede registreringer er
 med. Det er et historisk register — ikke en garanti for, at et gravminde stadig
 er synligt eller tilgængeligt i landskabet.
 
-Hvert datalag har sit eget kort i panelet og kan slås til og fra med sine egne
-filtre, mens periodefilteret er fælles. Det gør det muligt at holde lagene op
+Kortet starter med kun gravhøje slået til. Topbaren har faner for gravhøje,
+runesten, bynavne og kirker. Hver fane har sin egen til/fra-knap og egne
+filtre, inklusive periode. Faneskift bevarer aktive lag og deres filtre. Det gør det muligt at holde lagene op
 mod hinanden — for eksempel `-lev`-byernes jernaldernavne mod bronzealderens
 gravhøje, eller `-torp`-navnenes udflytterbebyggelser mod runestenene.
 
@@ -70,6 +71,7 @@ bruger.
 ```bash
 uv run oldtidskort build fund_og_fortidsminder
 uv run oldtidskort build bynavne_osm
+uv run oldtidskort build kirker_osm
 uv run python scripts/build_runestone_research.py
 uv run python scripts/build_static_site.py
 uv run python -m http.server 8000 --directory .pages-dist

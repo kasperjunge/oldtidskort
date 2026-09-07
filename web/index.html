@@ -3,8 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Et interaktivt kort over gravminder, runesten og daterede bynavne i Danmark." />
-    <title>Oldtidskort — gravminder, runesten og bynavne</title>
+    <meta name="description" content="Et interaktivt kort over gravhøje, runesten, kirker og daterede bynavne i Danmark." />
+    <title>Oldtidskort — gravhøje, runesten, kirker og bynavne</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Newsreader:opsz,wght@6..72,500;6..72,600&display=swap" rel="stylesheet" />
@@ -13,11 +13,12 @@
   </head>
   <body>
     <main>
+<nav class="source-tabs" role="tablist" aria-label="Datakilder"><button type="button" role="tab" id="tab-gravhoeje" aria-controls="panel-gravhoeje" aria-selected="true" tabindex="0"><span class="legend-dot mound"></span>Gravhøje<span class="tab-status">Til</span></button><button type="button" role="tab" id="tab-runesten" aria-controls="panel-runesten" aria-selected="false" tabindex="-1"><span class="legend-dot runestone"></span>Runesten<span class="tab-status">Fra</span></button><button type="button" role="tab" id="tab-bynavne" aria-controls="panel-bynavne" aria-selected="false" tabindex="-1"><span class="legend-dot placename"></span>Bynavne<span class="tab-status">Fra</span></button><button type="button" role="tab" id="tab-kirker" aria-controls="panel-kirker" aria-selected="false" tabindex="-1"><span class="legend-dot church"></span>Kirker<span class="tab-status">Fra</span></button></nav>
       <aside class="panel">
         <header>
           <div class="eyebrow"><span></span> Danmarks oldtid</div>
           <h1>Oldtiden<br />i landskabet</h1>
-          <p>Slå gravminder, runesten og daterede bynavne til og fra — og hold navnelagenes kronologi op mod fundene i landskabet.</p>
+          <p>Udforsk sporene i landskabet. Vælg en datakilde øverst, og læg flere lag oven på hinanden.</p>
         </header>
 
         <section class="count-card" aria-live="polite">
@@ -26,28 +27,26 @@
           <small id="total-count">Indlæser det landsdækkende arkiv …</small>
         </section>
 
-        <section class="filters" aria-label="Fælles periodefilter">
-          <label for="period">Periode — fælles for alle lag</label>
-          <select id="period">
+        <div class="layers" aria-label="Datalag">
+          <section class="layer" data-layer="gravhoeje" id="panel-gravhoeje" role="tabpanel" aria-labelledby="tab-gravhoeje">
+            <h2>Gravhøje</h2>
+            <label class="layer-head">
+              <input type="checkbox" id="layer-gravhoeje" aria-label="Vis gravhøje på kortet" checked />
+              <span class="legend-dot mound"></span>
+              <span class="layer-name">Vis gravhøje på kortet</span>
+              <span class="layer-count" id="count-gravhoeje">—</span>
+            </label>
+            <div class="layer-body">
+              <label for="period-gravhoeje">Periode</label><select id="period-gravhoeje">
             <option value="all">Alle perioder</option>
             <option value="stenalder">Stenalder</option>
             <option value="bronzealder">Bronzealder</option>
             <option value="jernalder">Jernalder</option>
             <option value="vikingetid">Vikingetid</option>
             <option value="middelalder">Middelalder</option>
+            <option value="renaessance">1536 og senere</option>
             <option value="ukendt">Ukendt / udateret</option>
-          </select>
-        </section>
-
-        <div class="layers" aria-label="Datalag">
-          <section class="layer" data-layer="gravhoeje">
-            <label class="layer-head">
-              <input type="checkbox" id="layer-gravhoeje" checked />
-              <span class="legend-dot mound"></span>
-              <span class="layer-name">Gravminder</span>
-              <span class="layer-count" id="count-gravhoeje">—</span>
-            </label>
-            <div class="layer-body">
+              </select>
               <label for="protection">Fredningsstatus</label>
               <select id="protection">
                 <option value="all">Fredede og ikke-fredede</option>
@@ -57,14 +56,25 @@
             </div>
           </section>
 
-          <section class="layer" data-layer="runesten">
+          <section class="layer" data-layer="runesten" id="panel-runesten" role="tabpanel" aria-labelledby="tab-runesten" hidden>
+            <h2>Runesten</h2>
             <label class="layer-head">
-              <input type="checkbox" id="layer-runesten" checked />
+              <input type="checkbox" id="layer-runesten" aria-label="Vis runesten på kortet" />
               <span class="legend-dot runestone"></span>
-              <span class="layer-name">Runesten</span>
+              <span class="layer-name">Vis runesten på kortet</span>
               <span class="layer-count" id="count-runesten">—</span>
             </label>
             <div class="layer-body">
+              <label for="period-runesten">Periode</label><select id="period-runesten">
+            <option value="all">Alle perioder</option>
+            <option value="stenalder">Stenalder</option>
+            <option value="bronzealder">Bronzealder</option>
+            <option value="jernalder">Jernalder</option>
+            <option value="vikingetid">Vikingetid</option>
+            <option value="middelalder">Middelalder</option>
+            <option value="renaessance">1536 og senere</option>
+            <option value="ukendt">Ukendt / udateret</option>
+              </select>
               <label for="runestone-location">Stedvurdering</label>
               <select id="runestone-location">
                 <option value="all">Alle stedvurderinger</option>
@@ -76,14 +86,25 @@
             </div>
           </section>
 
-          <section class="layer" data-layer="bynavne">
+          <section class="layer" data-layer="bynavne" id="panel-bynavne" role="tabpanel" aria-labelledby="tab-bynavne" hidden>
+            <h2>Bynavne</h2>
             <label class="layer-head">
-              <input type="checkbox" id="layer-bynavne" />
+              <input type="checkbox" id="layer-bynavne" aria-label="Vis bynavne på kortet" />
               <span class="legend-dot placename"></span>
-              <span class="layer-name">Bynavne</span>
+              <span class="layer-name">Vis bynavne på kortet</span>
               <span class="layer-count" id="count-bynavne">—</span>
             </label>
             <div class="layer-body">
+              <label for="period-bynavne">Periode</label><select id="period-bynavne">
+            <option value="all">Alle perioder</option>
+            <option value="stenalder">Stenalder</option>
+            <option value="bronzealder">Bronzealder</option>
+            <option value="jernalder">Jernalder</option>
+            <option value="vikingetid">Vikingetid</option>
+            <option value="middelalder">Middelalder</option>
+            <option value="renaessance">1536 og senere</option>
+            <option value="ukendt">Ukendt / udateret</option>
+              </select>
               <label for="suffix">Navneendelse</label>
               <select id="suffix">
                 <option value="all">Alle bynavne</option>
@@ -98,16 +119,35 @@
               <p class="layer-note">Endelsen daterer <em>navnetypen</em> — ikke nødvendigvis bebyggelsen.</p>
             </div>
           </section>
+          <section class="layer" data-layer="kirker" id="panel-kirker" role="tabpanel" aria-labelledby="tab-kirker" hidden>
+            <h2>Kirker</h2>
+            <label class="layer-head"><input type="checkbox" id="layer-kirker" aria-label="Vis kirker på kortet" /><span class="layer-name">Vis kirker på kortet</span><span class="layer-count" id="count-kirker">—</span></label>
+            <div class="layer-body">
+              <label for="period-kirker">Periode</label><select id="period-kirker">
+            <option value="all">Alle perioder</option>
+            <option value="stenalder">Stenalder</option>
+            <option value="bronzealder">Bronzealder</option>
+            <option value="jernalder">Jernalder</option>
+            <option value="vikingetid">Vikingetid</option>
+            <option value="middelalder">Middelalder</option>
+            <option value="renaessance">1536 og senere</option>
+            <option value="ukendt">Ukendt / udateret</option>
+              </select>
+              <p class="layer-note">Kirker og kapeller fra OpenStreetMap. Mange mangler datering; de vises under ukendt / udateret.</p>
+            </div>
+          </section>
         </div>
 
+        <p class="layer-note">Fanerne skifter filtre. Aktive lag bliver på kortet, indtil du slår dem fra.</p>
         <footer>
-          <a href="https://www.kulturarv.dk/fundogfortidsminder/" target="_blank" rel="noreferrer">Gravminder: Slots- og Kulturstyrelsen ↗</a>
+          <a href="https://www.kulturarv.dk/fundogfortidsminder/" target="_blank" rel="noreferrer">Gravhøje: Slots- og Kulturstyrelsen ↗</a>
           <a href="https://www.wikidata.org/" target="_blank" rel="noreferrer">Runesten: Wikidata (CC0) ↗</a>
           <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noreferrer">Bynavne: OpenStreetMap (ODbL) ↗</a>
+          <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noreferrer">Kirker: OpenStreetMap (ODbL) ↗</a>
         </footer>
       </aside>
 
-      <section class="map-wrap" aria-label="Kort over danske gravminder, runesten og bynavne">
+      <section class="map-wrap" aria-label="Kort over danske gravhøje, runesten, kirker og bynavne">
         <div id="map"></div>
         <div id="loading" class="loading"><i></i><span>Henter kortets lokaliteter</span></div>
         <div id="error" class="error" hidden>

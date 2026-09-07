@@ -21,7 +21,7 @@ def _collection(site_type: str, source_id: str) -> dict:
     }
 
 
-def test_static_site_indeholder_alle_tre_lag(tmp_path):
+def test_static_site_indeholder_alle_fire_lag(tmp_path):
     build = runpy.run_path(str(BUILD_SCRIPT), run_name="build_static_site")["build"]
     mounds = tmp_path / "mounds.geojson"
     stones = tmp_path / "stones.geojson"
@@ -30,12 +30,15 @@ def test_static_site_indeholder_alle_tre_lag(tmp_path):
     stones.write_text(json.dumps(_collection("runesten", "Q1")), encoding="utf-8")
     places.write_text(json.dumps(_collection("bynavn", "node/1")), encoding="utf-8")
 
-    count, target = build((mounds, stones, places), tmp_path / "site")
+    churches = tmp_path / "churches.geojson"
+    churches.write_text(json.dumps(_collection("kirke", "way/1")), encoding="utf-8")
+
+    count, target = build((mounds, stones, places, churches), tmp_path / "site")
 
     payload = json.loads(target.read_text(encoding="utf-8"))
-    assert count == 3
+    assert count == 4
     assert payload["format"] == "oldtidskort-v2"
-    assert {row[3] for row in payload["features"]} == {"gravhoej", "runesten", "bynavn"}
+    assert {row[3] for row in payload["features"]} == {"gravhoej", "runesten", "bynavn", "kirke"}
     assert payload["features"][1][9]["katalognummer"] == "DR 1"
 
 
