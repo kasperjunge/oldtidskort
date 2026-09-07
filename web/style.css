@@ -26,12 +26,28 @@ header p { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.6; }
 .filters { display: grid; gap: 7px; }
 .filters label { margin-top: 10px; color: var(--muted); font-size: 10px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; }
 select { appearance: none; width: 100%; padding: 11px 34px 11px 12px; color: var(--ink); border: 1px solid var(--line); border-radius: 2px; background: #faf8f2 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='7'%3E%3Cpath d='m1 1 5 5 5-5' fill='none' stroke='%23556b4f'/%3E%3C/svg%3E") no-repeat right 12px center; font: 12px "DM Sans"; }
-footer { margin-top: auto; color: var(--muted); font-size: 10px; line-height: 1.5; }
+footer { margin-top: auto; padding-top: 16px; color: var(--muted); font-size: 10px; line-height: 1.5; }
 footer a { display: block; margin-top: 8px; color: var(--moss); text-decoration: none; }
-.legend-dot { display: inline-block; width: 7px; height: 7px; margin: 0 6px 0 10px; background: var(--clay); }
-.legend-dot:first-child { margin-left: 0; }
+
+.layers { display: grid; gap: 2px; margin-top: 18px; min-height: 0; overflow-y: auto; }
+.layer { border-top: 1px solid var(--line); }
+.layer:last-child { border-bottom: 1px solid var(--line); }
+.layer-head { display: flex; align-items: center; gap: 9px; padding: 12px 0; cursor: pointer; font-size: 13px; font-weight: 500; }
+.layer-head input { flex: none; width: 14px; height: 14px; accent-color: var(--moss); cursor: pointer; }
+.layer-name { flex: 1; }
+.layer-count { color: var(--muted); font-size: 11px; font-variant-numeric: tabular-nums; }
+.layer-body { display: grid; gap: 6px; padding-bottom: 14px; }
+.layer-body label { color: var(--muted); font-size: 10px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; }
+.layer-body label + label { margin-top: 6px; }
+.layer-note { margin: 8px 0 0; color: var(--muted); font-size: 10px; line-height: 1.5; }
+.layer.off .layer-body { display: none; }
+.layer.off .layer-name, .layer.off .layer-count { color: var(--muted); }
+.layer.off .legend-dot { opacity: .35; }
+
+.legend-dot { display: inline-block; flex: none; width: 8px; height: 8px; background: var(--clay); }
 .legend-dot.mound { border-radius: 50%; }
 .legend-dot.runestone { background: #315d69; transform: rotate(45deg); }
+.legend-dot.placename { background: linear-gradient(90deg, #6f5f92 33%, #a8762a 33% 66%, #4f7a52 66%); border-radius: 50%; }
 
 .map-wrap, #map { position: relative; width: 100%; height: 100%; }
 .map-wrap { overflow: hidden; }
@@ -60,5 +76,8 @@ footer a { display: block; margin-top: 8px; color: var(--moss); text-decoration:
   .count-card { position: absolute; top: 18px; right: 20px; margin: 0; padding: 0; border: 0; text-align: right; }
   .count-card strong { font-size: 24px; }.count-card span { font-size: 9px; }.count-card small { display: none; }
   .filters { grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 14px; }.filters label { display: none; }
+  .layers { grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 12px; max-height: 42vh; }
+  .layer { border-top: 0; } .layer:last-child { border-bottom: 0; }
+  .layer-head { padding: 6px 0; font-size: 12px; } .layer-note { display: none; }
   .detail { right: 10px; bottom: 10px; left: 10px; width: auto; }
 }

@@ -5,6 +5,7 @@
 | Gravhøje | Fund og Fortidsminder (Slots- og Kulturstyrelsen) | WFS, punktlag findes via GetCapabilities | Offentlige data — kreditér styrelsen |
 | Kirker | OpenStreetMap via Overpass | Overpass API (to spejle) | ODbL 1.0 — kreditering påkrævet |
 | Runesten | Samnordisk runtextdatabas/Runor, Wikidata og Fund og Fortidsminder | REST, SPARQL og WFS | CC0-metadata + kildekreditering |
+| Bynavne | OpenStreetMap via Overpass + kurateret endelsesklassifikation | Overpass API (to spejle) | ODbL 1.0 — kreditering påkrævet |
 
 ## Fund og Fortidsminder
 Styrelsen har flyttet servicen mellem hosts gennem årene, så adapteren prøver
@@ -45,6 +46,25 @@ officielle Runor-API, udgave 2020. Den kilde skelner mellem ældst belagte og
 nuværende koordinater, oplyser proveniens, placering, bevaringsstatus og om en
 placering udtrykkeligt er oprindelig. Fund og Fortidsminder importeres som
 registerobservationer og sammenkobles kun med en sten via dokumenterede ID'er.
+
+## Bynavne
+`place`-noderne `city|town|village|hamlet|suburb` hentes fra Overpass.
+`isolated_dwelling` og `farm` udelades: de er så ujævnt kortlagt, at de ville
+skævvride tætheden mellem landsdele.
+
+Dateringen kommer ikke fra OSM, men fra `data/curated/placename_suffixes/`.
+Endelsen matches på navnets sidste ord, længste endelse vinder, og der kræves
+mindst to bogstavers stamme foran endelsen. `exceptions.csv` går forud for
+automatikken.
+
+Endelsen daterer navnetypen, ikke bebyggelsen, og navnelagenes grænser er
+omdiskuterede i forskningen. Derfor har hver endelse et `confidence`-felt, som
+kortet kan filtrere på, og navne uden match får `period = ukendt` frem for et
+gæt. Godt halvdelen af de danske bebyggelsesnavne ender på naturord
+(`-bjerg`, `-mose`, `-næs`) uden selvstændig datering — det er forventet.
+
+Danmarks Stednavne (Navneforskning, KU) ville give autoriserede navneformer og
+historiske belæg, men er ikke udgivet som et frit maskinlæsbart datasæt.
 
 ## Kildekrav
 Før et datasæt publiceres: afklar licens, kreditering, opdateringskadence og et

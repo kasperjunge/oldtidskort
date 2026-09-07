@@ -1,0 +1,130 @@
+{
+ "version": 0.6,
+ "elements": [
+  {
+   "type": "node",
+   "id": 21770219,
+   "lat": 55.7303589,
+   "lon": 12.3612313,
+   "tags": {
+    "name": "Ballerup",
+    "name:de": "Ballerup",
+    "name:fa": "لیدل",
+    "name:ka": "ბალერუპი",
+    "name:ru": "Баллеруп",
+    "name:uk": "Баллеруп",
+    "place": "town",
+    "population": "39087",
+    "wikidata": "Q28143",
+    "wikipedia": "da:Ballerup"
+   }
+  },
+  {
+   "type": "node",
+   "id": 25274027,
+   "lat": 55.7248173,
+   "lon": 12.4377222,
+   "tags": {
+    "name": "Herlev",
+    "name:de": "Herlev",
+    "name:ka": "ჰერლევი",
+    "name:uk": "Герлев",
+    "place": "town",
+    "population": "26890",
+    "wikidata": "Q3646715",
+    "wikipedia": "da:Herlev"
+   }
+  },
+  {
+   "type": "node",
+   "id": 26559065,
+   "lat": 55.3081175,
+   "lon": 12.3876252,
+   "tags": {
+    "census": "2013",
+    "name": "Store Heddinge",
+    "place": "village",
+    "population": "3288",
+    "wikidata": "Q1019126",
+    "wikipedia": "da:Store Heddinge"
+   }
+  },
+  {
+   "type": "node",
+   "id": 26559288,
+   "lat": 55.9285735,
+   "lon": 12.3063909,
+   "tags": {
+    "alt_name": "Frederiksborg",
+    "name": "Hillerød",
+    "name:ar": "هيليرود",
+    "name:de": "Hilleröd",
+    "name:he": "הילרוד",
+    "name:id": "Munisipalitas Hillerød",
+    "name:ja": "ヒレレズ",
+    "name:ka": "ჰილერედი",
+    "name:ko": "힐레뢰드",
+    "name:lt": "Hileriodas",
+    "name:mk": "Хилеред",
+    "name:nl": "Hillerød",
+    "name:ru": "Хиллерёд",
+    "name:sq": "Hillerod",
+    "name:sr": "Хилеред",
+    "name:uk": "Гіллеред",
+    "name:zh": "希勒勒",
+    "place": "town",
+    "population": "32698",
+    "population:date": "2018-01-01",
+    "source:population": "http://www.statistikbanken.dk/BY1",
+    "wikidata": "Q27425",
+    "wikipedia": "da:Hillerød"
+   }
+  },
+  {
+   "type": "node",
+   "id": 288673941,
+   "lat": 55.7383794,
+   "lon": 12.4696107,
+   "tags": {
+    "census": "2013",
+    "name": "Gladsaxe",
+    "place": "suburb",
+    "population": "66030",
+    "wikidata": "Q7224828",
+    "wikipedia": "da:Gladsaxe"
+   }
+  },
+  {
+   "type": "node",
+   "id": 8684396302,
+   "lat": 55.7529724,
+   "lon": 9.4210553,
+   "tags": {
+    "name": "Jelling",
+    "name:is": "Jalangur",
+    "place": "village",
+    "population": "3362",
+    "wikidata": "Q835708",
+    "wikipedia": "da:Jelling"
+   }
+  },
+  {
+   "type": "node",
+   "id": 999901,
+   "tags": {
+    "name": "Uden koordinat",
+    "place": "village"
+   }
+  },
+  {
+   "type": "node",
+   "id": 999902,
+   "lat": 56.0,
+   "lon": 10.0,
+   "tags": {
+    "name": "Enkeltgården",
+    "place": "isolated_dwelling"
+   }
+  }
+ ]
+}

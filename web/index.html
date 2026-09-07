@@ -3,8 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Et interaktivt kort over registrerede gravminder og runesten i Danmark." />
-    <title>Oldtidskort — Danmarks gravminder og runesten</title>
+    <meta name="description" content="Et interaktivt kort over gravminder, runesten og daterede bynavne i Danmark." />
+    <title>Oldtidskort — gravminder, runesten og bynavne</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Newsreader:opsz,wght@6..72,500;6..72,600&display=swap" rel="stylesheet" />
@@ -17,33 +17,17 @@
         <header>
           <div class="eyebrow"><span></span> Danmarks oldtid</div>
           <h1>Oldtiden<br />i landskabet</h1>
-          <p>Gå på opdagelse i registrerede gravhøje, dysser, jættestuer og runesten fra hele Danmark.</p>
+          <p>Slå gravminder, runesten og daterede bynavne til og fra — og hold navnelagenes kronologi op mod fundene i landskabet.</p>
         </header>
 
         <section class="count-card" aria-live="polite">
           <strong id="visible-count">—</strong>
-          <span>lokaliteter i kortudsnittet</span>
+          <span>punkter i kortudsnittet</span>
           <small id="total-count">Indlæser det landsdækkende arkiv …</small>
         </section>
 
-        <section class="filters" aria-label="Filtrer kortet">
-          <label for="site-type">Type</label>
-          <select id="site-type">
-            <option value="all">Gravminder og runesten</option>
-            <option value="gravhoej">Kun gravminder</option>
-            <option value="runesten">Kun runesten</option>
-          </select>
-
-          <label for="runestone-location">Runestenssted</label>
-          <select id="runestone-location">
-            <option value="all">Alle stedvurderinger</option>
-            <option value="earliest_known_location">Ældst kendte sted</option>
-            <option value="current_location">Nuværende placering</option>
-            <option value="findspot">Dokumenteret fundsted</option>
-            <option value="original_location">Dokumenteret oprindeligt sted</option>
-          </select>
-
-          <label for="period">Periode</label>
+        <section class="filters" aria-label="Fælles periodefilter">
+          <label for="period">Periode — fælles for alle lag</label>
           <select id="period">
             <option value="all">Alle perioder</option>
             <option value="stenalder">Stenalder</option>
@@ -51,26 +35,79 @@
             <option value="jernalder">Jernalder</option>
             <option value="vikingetid">Vikingetid</option>
             <option value="middelalder">Middelalder</option>
-            <option value="ukendt">Ukendt / oldtid</option>
-          </select>
-
-          <label for="protection">Status</label>
-          <select id="protection">
-            <option value="all">Fredede og ikke-fredede</option>
-            <option value="protected">Kun fredede</option>
-            <option value="unprotected">Kun ikke-fredede</option>
+            <option value="ukendt">Ukendt / udateret</option>
           </select>
         </section>
 
+        <div class="layers" aria-label="Datalag">
+          <section class="layer" data-layer="gravhoeje">
+            <label class="layer-head">
+              <input type="checkbox" id="layer-gravhoeje" checked />
+              <span class="legend-dot mound"></span>
+              <span class="layer-name">Gravminder</span>
+              <span class="layer-count" id="count-gravhoeje">—</span>
+            </label>
+            <div class="layer-body">
+              <label for="protection">Fredningsstatus</label>
+              <select id="protection">
+                <option value="all">Fredede og ikke-fredede</option>
+                <option value="protected">Kun fredede</option>
+                <option value="unprotected">Kun ikke-fredede</option>
+              </select>
+            </div>
+          </section>
+
+          <section class="layer" data-layer="runesten">
+            <label class="layer-head">
+              <input type="checkbox" id="layer-runesten" checked />
+              <span class="legend-dot runestone"></span>
+              <span class="layer-name">Runesten</span>
+              <span class="layer-count" id="count-runesten">—</span>
+            </label>
+            <div class="layer-body">
+              <label for="runestone-location">Stedvurdering</label>
+              <select id="runestone-location">
+                <option value="all">Alle stedvurderinger</option>
+                <option value="earliest_known_location">Ældst kendte sted</option>
+                <option value="current_location">Nuværende placering</option>
+                <option value="findspot">Dokumenteret fundsted</option>
+                <option value="original_location">Dokumenteret oprindeligt sted</option>
+              </select>
+            </div>
+          </section>
+
+          <section class="layer" data-layer="bynavne">
+            <label class="layer-head">
+              <input type="checkbox" id="layer-bynavne" />
+              <span class="legend-dot placename"></span>
+              <span class="layer-name">Bynavne</span>
+              <span class="layer-count" id="count-bynavne">—</span>
+            </label>
+            <div class="layer-body">
+              <label for="suffix">Navneendelse</label>
+              <select id="suffix">
+                <option value="all">Alle bynavne</option>
+                <option value="dated">Kun daterede endelser</option>
+              </select>
+              <label for="suffix-confidence">Sikkerhed</label>
+              <select id="suffix-confidence">
+                <option value="all">Alle dateringer</option>
+                <option value="medium">Kun veletablerede og anerkendte</option>
+                <option value="high">Kun veletablerede</option>
+              </select>
+              <p class="layer-note">Endelsen daterer <em>navnetypen</em> — ikke nødvendigvis bebyggelsen.</p>
+            </div>
+          </section>
+        </div>
+
         <footer>
-          <span class="legend-dot mound"></span> Gravminde
-          <span class="legend-dot runestone"></span> Runesten
-          <a href="https://www.kulturarv.dk/fundogfortidsminder/" target="_blank" rel="noreferrer">Kilder: Slots- og Kulturstyrelsen ↗</a>
-          <a href="https://www.wikidata.org/" target="_blank" rel="noreferrer">Wikidata (CC0) ↗</a>
+          <a href="https://www.kulturarv.dk/fundogfortidsminder/" target="_blank" rel="noreferrer">Gravminder: Slots- og Kulturstyrelsen ↗</a>
+          <a href="https://www.wikidata.org/" target="_blank" rel="noreferrer">Runesten: Wikidata (CC0) ↗</a>
+          <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noreferrer">Bynavne: OpenStreetMap (ODbL) ↗</a>
         </footer>
       </aside>
 
-      <section class="map-wrap" aria-label="Kort over danske gravminder og runesten">
+      <section class="map-wrap" aria-label="Kort over danske gravminder, runesten og bynavne">
         <div id="map"></div>
         <div id="loading" class="loading"><i></i><span>Henter kortets lokaliteter</span></div>
         <div id="error" class="error" hidden>

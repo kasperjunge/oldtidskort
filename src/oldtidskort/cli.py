@@ -92,6 +92,11 @@ def map_command(
         feature_count = write_location_geojson(research, research_geojson)
         console.print(f"runesten: {feature_count} dokumenterede stedvurderinger")
 
+    bynavne = PROCESSED_DIR / "bynavne_osm.geojson"
+    if refresh or not bynavne.exists():
+        console.print("Bygger bynavnelaget …")
+        console.print(build("bynavne_osm", RAW_DIR, PROCESSED_DIR, refresh=refresh).summary())
+
     url = f"http://127.0.0.1:{port}/web/"
     handler = functools.partial(http.server.SimpleHTTPRequestHandler, directory=PROJECT_DIR)
     try:

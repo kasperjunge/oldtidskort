@@ -38,17 +38,18 @@ def test_build_all_skriver_samlet_datasaet(tmp_path, fixture_path):
     """End-to-end mod fixtures: fetch() genbruger cachet råfil i raw_dir."""
     raw = tmp_path / "raw"
     raw.mkdir()
-    for name in ("fund_og_fortidsminder", "kirker_osm", "runesten"):
+    for name in ("bynavne_osm", "fund_og_fortidsminder", "kirker_osm", "runesten"):
         shutil.copy(fixture_path(f"{name}.json"), raw / f"{name}.json")
 
     reports, paths = build_all(raw, tmp_path / "out")
 
     assert {r.source: r.kept for r in reports} == {
+        "bynavne_osm": 6,
         "fund_og_fortidsminder": 2,
         "kirker_osm": 2,
         "runesten": 2,
     }
     combined = json.loads(paths[0].read_text(encoding="utf-8"))
-    assert len(combined["features"]) == 6
+    assert len(combined["features"]) == 12
     assert combined["features"][0]["geometry"]["type"] == "Point"
     assert {p.suffix for p in paths} == {".geojson", ".parquet"}

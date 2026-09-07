@@ -12,6 +12,7 @@ ROOT = Path(__file__).resolve().parents[1]
 SOURCES = (
     ROOT / "data" / "processed" / "fund_og_fortidsminder.geojson",
     ROOT / "data" / "processed" / "runesten_lokationer.geojson",
+    ROOT / "data" / "processed" / "bynavne_osm.geojson",
 )
 WEB = ROOT / "web"
 PAGES = ROOT / ".pages-dist"
@@ -43,6 +44,7 @@ def build(sources: tuple[Path, ...] = SOURCES, destination: Path = PAGES) -> tup
         names = ", ".join(str(path.relative_to(ROOT)) for path in missing)
         raise SystemExit(
             f"Mangler {names}. Kør først: uv run oldtidskort build fund_og_fortidsminder "
+            "&& uv run oldtidskort build bynavne_osm "
             "&& uv run python scripts/build_runestone_research.py"
         )
 

@@ -20,6 +20,7 @@ class Period(StrEnum):
 
 
 class SiteType(StrEnum):
+    BYNAVN = "bynavn"
     GRAVHOEJ = "gravhoej"
     KIRKE = "kirke"
     RUNESTEN = "runesten"

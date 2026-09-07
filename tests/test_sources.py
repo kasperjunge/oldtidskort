@@ -99,3 +99,28 @@ def test_kurateret_runesten_overskriver_wikidata_uden_dublet(tmp_path, fixture_p
     assert matches[0].id == "runesten:Q207404"
     assert matches[0].name == "Den opdaterede Jellingsten"
     assert str(matches[0].url) == "https://example.com/dr42"
+
+
+def test_bynavne_dateres_efter_endelse(fixture_path):
+    sites = list(REGISTRY["bynavne_osm"].parse(fixture_path("bynavne_osm.json")))
+    by_name = {site.name: site for site in sites}
+
+    # Noden uden koordinat og enkeltgården (uden for PLACE_RANKS) er sorteret fra.
+    assert "Uden koordinat" not in by_name
+    assert "Enkeltgården" not in by_name
+
+    herlev = by_name["Herlev"]
+    assert herlev.site_type is SiteType.BYNAVN
+    assert herlev.period is Period.JERNALDER
+    assert herlev.period_raw == "-lev"
+    assert herlev.extra["suffix_family"] == "lev"
+    assert herlev.extra["confidence"] == "high"
+    assert herlev.year_from == 200
+
+    assert by_name["Ballerup"].period is Period.VIKINGETID
+    assert by_name["Hillerød"].period is Period.MIDDELALDER
+
+    # Uden dateret endelse må vi ikke gætte på en periode.
+    gladsaxe = by_name["Gladsaxe"]
+    assert gladsaxe.period is Period.UKENDT
+    assert gladsaxe.extra["suffix_family"] is None

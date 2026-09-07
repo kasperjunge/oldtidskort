@@ -1,0 +1,33 @@
+suffix,family,family_label,horizon,period,year_from,year_to,confidence,gloss,notes
+lev,lev,-lev,aeldre_jernalder,jernalder,200,600,high,"arvegods, efterladt jordegods","Altid sammensat med et personnavn. Et af de sikrest daterede navnelag."
+løv,lev,-lev,aeldre_jernalder,jernalder,200,600,medium,"sideform af -lev","Optræder især på Sjælland og i Skåne."
+inge,inge,-inge,aeldre_jernalder,jernalder,200,700,high,"stedbetegnende afledning, ofte af naturord","Skal skelnes fra sen -ing i nyere navne."
+lösa,loese,-løse,aeldre_jernalder,jernalder,200,700,low,"sideform af -løse",Sjælden staveform.
+løse,loese,-løse,aeldre_jernalder,jernalder,200,700,medium,"eng, lysning (omdiskuteret)","Betydningen er ikke afklaret i forskningen."
+um,um,-um,aeldre_jernalder,jernalder,200,700,high,"af ældre -hem/-heim: hjem, boplads","Sammentrukket form; stammen er ofte stærkt slidt."
+hem,um,-um,aeldre_jernalder,jernalder,200,700,medium,"hjem, boplads","Den fulde, ældre form af -um."
+sted,sted,-sted,aeldre_jernalder,jernalder,400,800,high,"sted, plads","Ofte med personnavn som forled."
+lund,lund,-lund,yngre_jernalder,jernalder,400,1000,medium,"lund, ofte helligsted","Både førkristne kultnavne og senere naturnavne."
+by,by,-by,vikingetid,vikingetid,700,1100,high,"gård, bebyggelse","Kernen i vikingetidens bebyggelsesnavne; genfindes i Danelagen."
+torp,torp,-torp/-rup,vikingetid,vikingetid,700,1200,high,"udflytterbebyggelse fra en moderbebyggelse","Danmarks største navnelag; markerer bebyggelsesekspansionen."
+rup,torp,-torp/-rup,vikingetid,vikingetid,700,1200,high,"sammentrukket -torp","Den almindeligste jyske form."
+drup,torp,-torp/-rup,vikingetid,vikingetid,700,1200,high,"sammentrukket -torp",Forledets endelse er smeltet sammen med -torp.
+strup,torp,-torp/-rup,vikingetid,vikingetid,700,1200,high,"sammentrukket -torp",Forledets s-genitiv er bevaret.
+trup,torp,-torp/-rup,vikingetid,vikingetid,700,1200,high,"sammentrukket -torp",
+arp,torp,-torp/-rup,vikingetid,vikingetid,700,1200,medium,"sammentrukket -torp","Især sønderjysk og skånsk form."
+toft,toft,-toft,vikingetid,vikingetid,800,1300,high,"indhegnet jordstykke ved gården","Både vikingetid og tidlig middelalder."
+bøl,boel,-bøl,vikingetid,vikingetid,800,1300,medium,"bol, brugsenhed af jord","Tæt knyttet til middelalderens jordvurdering."
+bølle,boel,-bøl,vikingetid,vikingetid,800,1300,medium,"sideform af -bøl",
+borg,borg,-borg,vikingetid,vikingetid,700,1300,medium,"borg, befæstning","Dækker både vikingetidsanlæg og middelalderborge."
+rød,roed,-rød/-tved,middelalder,middelalder,1000,1350,high,"rydning i skov","Kernen i den middelalderlige rydningskolonisation."
+røde,roed,-rød/-tved,middelalder,middelalder,1000,1350,high,"rydning i skov",
+rud,roed,-rød/-tved,middelalder,middelalder,1000,1350,medium,"sideform af -rød","Især på Sjælland."
+tved,roed,-rød/-tved,middelalder,middelalder,1000,1350,high,"ryddet stykke skov",
+holt,holt,-holt/-skov,middelalder,middelalder,1000,1400,medium,"lille skov, holt","Kan også være et ældre naturnavn."
+skov,holt,-holt/-skov,middelalder,middelalder,1000,1500,low,"skov","Mange er unge navne; datering er usikker."
+have,holt,-holt/-skov,middelalder,middelalder,1000,1500,low,"indhegning, have",
+gård,gaard,-gård,senmiddelalder,middelalder,1200,1536,low,"enkeltgård","Mange er nyere ejendomsnavne uden middelalderlig alder."
+gaard,gaard,-gård,senmiddelalder,middelalder,1200,1536,low,"enkeltgård",Retskrivning før 1948.
+ing,ing,-ing,aeldre_jernalder,jernalder,200,700,low,"stedbetegnende afledning","Beslægtet med -inge, men bruges også i unge navne; dateres forsigtigt."
+tofte,toft,-toft,vikingetid,vikingetid,800,1300,high,"indhegnet jordstykke ved gården","Bestemt/flertalsform af -toft."
+lunde,lund,-lund,yngre_jernalder,jernalder,400,1000,medium,"lund, ofte helligsted","Flertalsform af -lund."

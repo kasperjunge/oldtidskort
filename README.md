@@ -1,6 +1,6 @@
 # Oldtidskort
 
-**Et åbent, interaktivt kort over registrerede gravhøje, andre gravminder og runesten i Danmark.**
+**Et åbent, interaktivt kort over registrerede gravhøje, andre gravminder, runesten og daterede bynavne i Danmark.**
 
 [Åbn kortet →](https://kasperjunge.github.io/oldtidskort/)
 
@@ -13,6 +13,11 @@ Kortet viser blandt andet rundhøje, langhøje, dysser, jættestuer,
 skibssætninger og gravpladser. Både fredede og ikke-fredede registreringer er
 med. Det er et historisk register — ikke en garanti for, at et gravminde stadig
 er synligt eller tilgængeligt i landskabet.
+
+Hvert datalag har sit eget kort i panelet og kan slås til og fra med sine egne
+filtre, mens periodefilteret er fælles. Det gør det muligt at holde lagene op
+mod hinanden — for eksempel `-lev`-byernes jernaldernavne mod bronzealderens
+gravhøje, eller `-torp`-navnenes udflytterbebyggelser mod runestenene.
 
 ## Prøv det
 
@@ -53,6 +58,8 @@ tests/                  parser- og pipeline-tests
 
 Pipeline-output gemmes som GeoJSON til kortbrug og Parquet til analyse i
 `data/processed/`. Rå og genererede data bliver ikke committed på `main`.
+`data/curated/` indeholder derimod de håndkuraterede datasæt, der er en del af
+kildekoden: runestensresearchen og bynavnenes endelsesklassifikation.
 
 ## Byg den statiske GitHub Pages-udgave
 
@@ -62,6 +69,7 @@ bruger.
 
 ```bash
 uv run oldtidskort build fund_og_fortidsminder
+uv run oldtidskort build bynavne_osm
 uv run python scripts/build_runestone_research.py
 uv run python scripts/build_static_site.py
 uv run python -m http.server 8000 --directory .pages-dist
@@ -84,10 +92,23 @@ pushe. Den egentlige deployment overskriver kun den genererede `gh-pages`-branch
 publicerede datakilder, kontrollerer at buildet indeholder både gravminder og
 runesten og verificerer til sidst datafilen på det offentlige site.
 
+## Daterede bynavne
+
+Bynavnelaget henter danske bebyggelser fra OpenStreetMap og daterer dem efter
+navneendelsen ud fra det kuraterede datasæt i
+`data/curated/placename_suffixes/`. `-lev`, `-inge` og `-um` hører til ældre
+jernalder, `-by` og `-torp/-rup` til vikingetiden, `-rød` og `-tved` til
+middelalderens rydningskolonisation.
+
+Endelsen daterer **navnetypen, ikke bebyggelsen**: en landsby kan være ældre end
+sit navn, og enkelte navne er sene efterligninger af et gammelt mønster. Hver
+endelse har derfor en angivet sikkerhed, som kan filtreres på i kortet. Læs
+datasættets README før brug.
+
 ## Flere datasæt
 
-Datapipelinen har også adaptere til kirker fra OpenStreetMap og runesten fra
-Wikidata. Byg alle lag samt et samlet datasæt med:
+Datapipelinen har også en adapter til kirker fra OpenStreetMap. Byg alle lag
+samt et samlet datasæt med:
 
 ```bash
 uv run oldtidskort build all
@@ -118,6 +139,9 @@ tilgængelighed og kortoplevelsen. Åbn gerne et issue før større ændringer.
 
 Gravhøjsdata kommer fra
 [Fund og Fortidsminder](https://www.kulturarv.dk/fundogfortidsminder/) hos
-Slots- og Kulturstyrelsen. Baggrundskortet er © OpenStreetMap-bidragsydere.
+Slots- og Kulturstyrelsen. Runestensresearchen bygger på Wikidata (CC0).
+Bynavne og baggrundskort er © OpenStreetMap-bidragsydere (ODbL).
+Endelsesdateringen refererer dansk navneforskning; se
+`data/curated/placename_suffixes/sources.csv`.
 Projektets kildekode er udgivet under MIT-licensen; kildedata følger deres egne
 vilkår og er ikke omfattet af MIT.
