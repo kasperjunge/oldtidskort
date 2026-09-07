@@ -1,6 +1,6 @@
 # Oldtidskort
 
-**Et åbent, interaktivt kort over 96.765 registrerede gravhøje og andre gravminder i Danmark.**
+**Et åbent, interaktivt kort over registrerede gravhøje, andre gravminder og runesten i Danmark.**
 
 [Åbn kortet →](https://kasperjunge.github.io/oldtidskort/)
 
@@ -62,6 +62,7 @@ bruger.
 
 ```bash
 uv run oldtidskort build fund_og_fortidsminder
+uv run python scripts/build_runestone_research.py
 uv run python scripts/build_static_site.py
 uv run python -m http.server 8000 --directory .pages-dist
 ```
@@ -77,7 +78,8 @@ Maintainers kan bygge og pushe `gh-pages` lokalt i én arbejdsgang:
 ```
 
 Scriptet overskriver kun den genererede `gh-pages`-branch; `main` og lokale
-kildedata røres ikke.
+kildedata på `main` røres ikke. Scriptet genhenter begge publicerede datakilder,
+så sitet ikke bygges fra en gammel lokal cache.
 
 ## Flere datasæt
 
@@ -90,6 +92,14 @@ uv run oldtidskort build all
 
 Se [datakilder og kendte faldgruber](docs/kilder.md) og den
 [fælles datamodel](docs/datamodel.md) for detaljerne.
+
+## Dokumenteret runestensresearch
+
+Det genbrugelige researchdatasæt i `data/curated/runestones/` skelner mellem
+oprindeligt opstillingssted, fundsted, nuværende placering og endnu
+uklassificerede registerpunkter. Hvert sted har metode, usikkerhed, begrundelse,
+kildeudsagn og reviewstatus. Se datasættets README før brug; importerede rækker
+er ikke det samme som individuelt fagligt godkendte rækker.
 
 ## Udvikling
 

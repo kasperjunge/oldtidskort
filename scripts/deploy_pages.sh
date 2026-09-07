@@ -4,6 +4,8 @@ set -euo pipefail
 project_dir="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$project_dir"
 
+uv run oldtidskort build fund_og_fortidsminder --refresh
+uv run python scripts/build_runestone_research.py --refresh
 uv run python scripts/build_static_site.py
 
 release_dir="$(mktemp -d)"

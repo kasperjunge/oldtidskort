@@ -12,11 +12,28 @@ from .core.http import client
 from .core.io import PROCESSED_DIR, RAW_DIR
 from .core.wfs import capabilities
 from .pipeline import build, build_all
+from .research.runestones import (
+    build_dataset as build_runestone_research,
+)
+from .research.runestones import (
+    fetch as fetch_runestone_research,
+)
+from .research.runestones import (
+    fetch_runor,
+    write_location_geojson,
+)
+from .research.runestones import (
+    validate_foreign_keys as validate_runestone_research,
+)
+from .research.runestones import (
+    write_dataset as write_runestone_research,
+)
 from .sources import REGISTRY
 
 app = typer.Typer(help="Byg danske historiske datasæt til kortvisualisering.", no_args_is_help=True)
 console = Console()
 PROJECT_DIR = Path(__file__).resolve().parents[2]
+CURATED_RUNESTONES = PROJECT_DIR / "data" / "curated" / "runestones"
 
 
 @app.command("list")
@@ -29,10 +46,11 @@ def list_sources() -> None:
 @app.command("build")
 def build_command(
     source: str = typer.Argument(..., help="Kildenavn, eller 'all' for alle + samlet datasæt"),
+    refresh: bool = typer.Option(False, "--refresh", help="Hent kildedata på ny."),
 ) -> None:
     """Hent, normalisér og skriv datasæt til data/processed/."""
     if source == "all":
-        reports, paths = build_all(RAW_DIR, PROCESSED_DIR)
+        reports, paths = build_all(RAW_DIR, PROCESSED_DIR, refresh=refresh)
         for report in reports:
             console.print(report.summary())
         for path in paths:
@@ -40,7 +58,7 @@ def build_command(
         return
     if source not in REGISTRY:
         raise typer.BadParameter(f"ukendt kilde: {source}. Se 'oldtidskort list'.")
-    report = build(source, RAW_DIR, PROCESSED_DIR)
+    report = build(source, RAW_DIR, PROCESSED_DIR, refresh=refresh)
     console.print(report.summary())
     for path in report.paths:
         console.print(f"skrev {path}")
@@ -52,12 +70,27 @@ def map_command(
     refresh: bool = typer.Option(False, "--refresh", help="Hent og byg kildedata på ny."),
     open_browser: bool = typer.Option(True, "--open/--no-open", help="Åbn kortet i browseren."),
 ) -> None:
-    """Byg data ved behov og vis det interaktive gravhøjskort."""
-    dataset = PROCESSED_DIR / "fund_og_fortidsminder.geojson"
-    if refresh or not dataset.exists():
-        console.print("Bygger det landsdækkende gravhøjslag …")
-        report = build("fund_og_fortidsminder", RAW_DIR, PROCESSED_DIR)
+    """Byg data ved behov og vis det interaktive oldtidskort."""
+    mounds = PROCESSED_DIR / "fund_og_fortidsminder.geojson"
+    if refresh or not mounds.exists():
+        console.print("Bygger kortlaget fund_og_fortidsminder …")
+        report = build("fund_og_fortidsminder", RAW_DIR, PROCESSED_DIR, refresh=refresh)
         console.print(report.summary())
+
+    research_geojson = PROCESSED_DIR / "runesten_lokationer.geojson"
+    if refresh or not research_geojson.exists():
+        console.print("Bygger det dokumenterede runestenslag …")
+        wikidata = fetch_runestone_research(
+            RAW_DIR / "runestone_research.json", refresh=refresh
+        )
+        runor = fetch_runor(RAW_DIR / "runor_api_2020.json", refresh=refresh)
+        research = build_runestone_research(
+            wikidata, RAW_DIR / "fund_og_fortidsminder.json", runor
+        )
+        validate_runestone_research(research)
+        write_runestone_research(research, CURATED_RUNESTONES)
+        feature_count = write_location_geojson(research, research_geojson)
+        console.print(f"runesten: {feature_count} dokumenterede stedvurderinger")
 
     url = f"http://127.0.0.1:{port}/web/"
     handler = functools.partial(http.server.SimpleHTTPRequestHandler, directory=PROJECT_DIR)
