@@ -74,12 +74,15 @@ tilføjes senere uden at ændre selve sitet.
 Maintainers kan bygge og pushe `gh-pages` lokalt i én arbejdsgang:
 
 ```bash
+./scripts/deploy_pages.sh --dry-run
 ./scripts/deploy_pages.sh
 ```
 
-Scriptet overskriver kun den genererede `gh-pages`-branch; `main` og lokale
-kildedata på `main` røres ikke. Scriptet genhenter begge publicerede datakilder,
-så sitet ikke bygges fra en gammel lokal cache.
+En dry-run kører preflight, tests, data-refresh, build og validering uden at
+pushe. Den egentlige deployment overskriver kun den genererede `gh-pages`-branch;
+`main` og lokale kildedata på `main` røres ikke. Scriptet genhenter begge
+publicerede datakilder, kontrollerer at buildet indeholder både gravminder og
+runesten og verificerer til sidst datafilen på det offentlige site.
 
 ## Flere datasæt
 
