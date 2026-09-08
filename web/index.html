@@ -3,8 +3,21 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Et interaktivt kort over gravhøje, runesten, kirker og daterede bynavne i Danmark." />
-    <title>Oldtidskort — gravhøje, runesten, kirker og bynavne</title>
+    <meta name="description" content="Interaktivt kort over mere end 100.000 registrerede gravhøje, gravminder, runesten, kirker og daterede bynavne i Danmark. Bygget på åbne data fra Fund og Fortidsminder, Wikidata og OpenStreetMap." />
+    <title>Oldtidskort — kort over gravhøje, runesten og oldtidsminder i Danmark</title>
+    <link rel="canonical" href="https://kasperjunge.github.io/oldtidskort/" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="da_DK" />
+    <meta property="og:site_name" content="Oldtidskort" />
+    <meta property="og:url" content="https://kasperjunge.github.io/oldtidskort/" />
+    <meta property="og:title" content="Oldtidskort — gravhøje, runesten og oldtidsminder i Danmark" />
+    <meta property="og:description" content="Udforsk mere end 100.000 registrerede gravhøje, runesten, kirker og daterede bynavne på et interaktivt kort over Danmark." />
+    <meta property="og:image" content="https://kasperjunge.github.io/oldtidskort/og.jpg" />
+    <meta property="og:image:width" content="1600" />
+    <meta property="og:image:height" content="840" />
+    <meta property="og:image:alt" content="Oldtidskort med tusindvis af registrerede gravhøje markeret på et kort over Danmark." />
+    <meta name="twitter:card" content="summary_large_image" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Newsreader:opsz,wght@6..72,500;6..72,600&display=swap" rel="stylesheet" />
@@ -139,6 +152,15 @@
         </div>
 
         <p class="layer-note">Fanerne skifter filtre. Aktive lag bliver på kortet, indtil du slår dem fra.</p>
+
+        <section class="contribute" aria-labelledby="contribute-title">
+          <h2 id="contribute-title">Vær med</h2>
+          <p>Oldtidskort er et åbent projekt. Mangler der et lag, er en registrering forkert, eller har du en idé?</p>
+          <a class="cta" href="https://github.com/kasperjunge/oldtidskort/issues/new" target="_blank" rel="noopener">Foreslå en funktion eller meld en fejl ↗</a>
+          <a href="https://github.com/kasperjunge/oldtidskort" target="_blank" rel="noopener">Se koden og bidrag på GitHub ↗</a>
+          <a href="https://www.linkedin.com/in/kasper-juunge/" target="_blank" rel="noopener">Kasper Junge på LinkedIn ↗</a>
+        </section>
+
         <footer>
           <a href="https://www.kulturarv.dk/fundogfortidsminder/" target="_blank" rel="noreferrer">Gravhøje: Slots- og Kulturstyrelsen ↗</a>
           <a href="https://www.wikidata.org/" target="_blank" rel="noreferrer">Runesten: Wikidata (CC0) ↗</a>
@@ -165,5 +187,41 @@
     </main>
     <script src="https://unpkg.com/maplibre-gl@5.6.2/dist/maplibre-gl.js"></script>
     <script src="./app.js"></script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Oldtidskort",
+        "url": "https://kasperjunge.github.io/oldtidskort/",
+        "applicationCategory": "https://schema.org/TravelApplication",
+        "browserRequirements": "Kræver JavaScript og WebGL",
+        "operatingSystem": "Alle",
+        "inLanguage": "da-DK",
+        "isAccessibleForFree": true,
+        "description": "Interaktivt kort over registrerede gravhøje, gravminder, runesten, kirker og daterede bynavne i Danmark.",
+        "author": {
+          "@type": "Person",
+          "name": "Kasper Junge",
+          "sameAs": ["https://www.linkedin.com/in/kasper-juunge/", "https://github.com/kasperjunge"]
+        },
+        "codeRepository": "https://github.com/kasperjunge/oldtidskort",
+        "license": "https://opensource.org/licenses/MIT",
+        "spatialCoverage": { "@type": "Place", "name": "Danmark" },
+        "mainEntity": {
+          "@type": "Dataset",
+          "name": "Danske gravhøje, runesten, kirker og daterede bynavne",
+          "description": "Normaliserede punktdata for danske gravminder og runesten samt kirker og bynavne dateret efter navneendelse.",
+          "inLanguage": "da-DK",
+          "license": "https://opensource.org/licenses/MIT",
+          "creator": { "@type": "Person", "name": "Kasper Junge" },
+          "isBasedOn": [
+            "https://www.kulturarv.dk/fundogfortidsminder/",
+            "https://www.wikidata.org/",
+            "https://www.openstreetmap.org/"
+          ],
+          "spatialCoverage": { "@type": "Place", "name": "Danmark" }
+        }
+      }
+    </script>
   </body>
 </html>

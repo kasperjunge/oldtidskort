@@ -1,8 +1,10 @@
-# Oldtidskort
+# Oldtidskort — kort over gravhøje, runesten og oldtidsminder i Danmark
 
-**Et åbent, interaktivt kort over registrerede gravhøje, andre gravminder, runesten og daterede bynavne i Danmark.**
+**Et åbent, interaktivt kort over mere end 100.000 registrerede gravhøje, andre gravminder, runesten, kirker og daterede bynavne i Danmark.**
 
 [Åbn kortet →](https://kasperjunge.github.io/oldtidskort/)
+
+[![Oldtidskort: tusindvis af registrerede gravhøje og runesten på et kort over Jylland](web/og.jpg)](https://kasperjunge.github.io/oldtidskort/)
 
 Oldtidskort gør Slots- og Kulturstyrelsens landsdækkende data fra Fund og
 Fortidsminder nemme at udforske. Zoom ind på dit lokalområde, filtrér efter
@@ -135,7 +137,10 @@ uv run ruff check .
 ```
 
 Bidrag er velkomne — især forbedringer af typeudvælgelsen, datakvalitet,
-tilgængelighed og kortoplevelsen. Åbn gerne et issue før større ændringer.
+tilgængelighed og kortoplevelsen.
+[Åbn et issue](https://github.com/kasperjunge/oldtidskort/issues/new) med en
+fejl, et ønske eller en idé — også gerne før større ændringer. Du kan også fange
+mig på [LinkedIn](https://www.linkedin.com/in/kasper-juunge/).
 
 ## Data og kreditering
 

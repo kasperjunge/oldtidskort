@@ -123,3 +123,13 @@ button:focus-visible, select:focus-visible, input:focus-visible { outline: 2px s
   .source-tabs .legend-dot { width: 6px; height: 6px; }
   .tab-status { padding: 2px 3px; }
 }
+
+/* Vær med-blokken er sitets eneste CTA og skal læses som andet end en
+   kildekreditering — derfor egen ramme over den lavmælte footer. */
+.contribute { margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--line); }
+.contribute h2 { margin: 0; font-size: 13px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; font-family: "DM Sans", sans-serif; }
+.contribute p { margin: 6px 0 10px; color: var(--muted); font-size: 11px; line-height: 1.55; }
+.contribute a { display: block; margin-top: 7px; color: var(--moss); font-size: 11px; text-decoration: none; }
+.contribute a:hover { text-decoration: underline; }
+.contribute a.cta { padding: 9px 12px; margin-bottom: 10px; border: 1px solid var(--moss); border-radius: 4px; text-align: center; font-weight: 500; font-size: 12px; }
+.contribute a.cta:hover { background: var(--moss); color: #f8f5ed; text-decoration: none; }

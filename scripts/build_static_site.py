@@ -7,6 +7,7 @@ import argparse
 import hashlib
 import json
 import shutil
+from datetime import UTC, datetime
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -18,6 +19,7 @@ SOURCES = (
 )
 WEB = ROOT / "web"
 DATA_URL = "./data/lokaliteter.json"
+SITE_URL = "https://kasperjunge.github.io/oldtidskort/"
 PAGES = ROOT / ".pages-dist"
 
 
@@ -85,6 +87,22 @@ def build(sources: tuple[Path, ...] = SOURCES, destination: Path = PAGES) -> tup
     (destination / "style.css").write_text(style_css, encoding="utf-8")
     (destination / "app.js").write_text(app_js, encoding="utf-8")
     (destination / ".nojekyll").touch()
+    shutil.copyfile(WEB / "og.jpg", destination / "og.jpg")
+
+    # Sitet er én side, så robots.txt og sitemap.xml kan skrives direkte her
+    # frem for at ligge som statiske filer, der skal holdes i sync i hånden.
+    (destination / "robots.txt").write_text(
+        f"User-agent: *\nAllow: /\nSitemap: {SITE_URL}sitemap.xml\n", encoding="utf-8"
+    )
+    (destination / "sitemap.xml").write_text(
+        '<?xml version="1.0" encoding="UTF-8"?>\n'
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+        f"  <url><loc>{SITE_URL}</loc>"
+        f"<lastmod>{datetime.now(UTC).date().isoformat()}</lastmod>"
+        "<changefreq>monthly</changefreq></url>\n"
+        "</urlset>\n",
+        encoding="utf-8",
+    )
 
     # Selve filnavnet holdes uændret; deploy-scriptet verificerer denne sti.
     target = destination / "data" / "lokaliteter.json"
