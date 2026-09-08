@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://kasperjunge.github.io/oldtidskort/sitemap.xml
